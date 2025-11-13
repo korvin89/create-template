@@ -71,19 +71,16 @@ fi
 
 print_info "Creating project at: $TARGET_PATH"
 
-# Create target directory
+# Check if target directory already exists
 if [ -d "$TARGET_PATH" ]; then
-    print_warning "Directory $TARGET_PATH already exists"
-    read -p "Do you want to continue? Files may be overwritten. (y/N): " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        print_info "Aborted."
-        exit 0
-    fi
-else
-    print_info "Creating directory: $TARGET_PATH"
-    mkdir -p "$TARGET_PATH"
+    print_error "Directory $TARGET_PATH already exists"
+    print_error "Please choose a different path or remove the existing directory"
+    exit 1
 fi
+
+# Create target directory
+print_info "Creating directory: $TARGET_PATH"
+mkdir -p "$TARGET_PATH"
 
 # Convert to absolute path
 TARGET_PATH="$(cd "$TARGET_PATH" && pwd)"
