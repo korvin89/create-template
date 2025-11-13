@@ -1,0 +1,41 @@
+{
+    "name": "<project-name>",
+    "version": "0.0.0",
+    "description": "<project-description>",
+    "license": "MIT",
+    "engines": {
+      "node": ">= 22",
+      "npm": ">= 10",
+      "yarn": "Please use npm instead of yarn to install dependencies",
+      "pnpm": "Please use npm instead of pnpm to install dependencies"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/<project-owner>/<project-name>"
+    },
+    "type": "commonjs",
+    "scripts": {
+      "prepare": "husky",
+      "lint:js": "eslint",
+      "lint:js:fix": "npm run lint:js -- --fix",
+      "lint": "run-p lint:*"
+    },
+    "dependencies": {},
+    "devDependencies": {
+      "@commitlint/cli": "^19.8.1",
+      "@commitlint/config-conventional": "^19.8.1",
+      "@gravity-ui/eslint-config": "^4.1.0",
+      "@gravity-ui/prettier-config": "^1.1.0",
+      "cross-env": "^7.0.3",
+      "eslint": "^9.28.0",
+      "husky": "^9.1.7",
+      "nano-staged": "^0.8.0",
+      "npm-run-all": "^4.1.5",
+      "prettier": "^3.5.3"
+    },
+    "nano-staged": {
+      "*.{js,jsx}": [
+        "eslint --fix --quiet"
+      ]
+    }
+  }
