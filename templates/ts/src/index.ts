@@ -2,5 +2,5 @@ export function greet(name: string): string {
     return `Hello, ${name}!`;
 }
 
-console.log(greet('World'));
+console.info(greet('World'));
 

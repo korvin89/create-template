@@ -3,6 +3,7 @@ import clientConfig from '@gravity-ui/eslint-config/client';
 import importOrderConfig from '@gravity-ui/eslint-config/import-order';
 import prettierConfig from '@gravity-ui/eslint-config/prettier';
 import {defineConfig} from 'eslint/config';
+import globals from 'globals';
 
 export default defineConfig([
     ...baseConfig,
