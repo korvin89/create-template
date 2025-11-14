@@ -186,10 +186,17 @@ fi
 
 # Initialize husky
 print_info "Initializing husky..."
-if npm run prepare; then
+if npx husky init; then
     print_info "✓ Husky initialized"
+    
+    # Create pre-commit hook for nano-staged
+    cat > .husky/pre-commit << 'EOF'
+npx nano-staged
+EOF
+    chmod +x .husky/pre-commit
+    print_info "✓ Pre-commit hook created"
 else
-    print_warning "Failed to initialize husky (this may be normal if git repo is not initialized)"
+    print_warning "Failed to initialize husky (git repository needs to be initialized first)"
 fi
 
 # Success message
