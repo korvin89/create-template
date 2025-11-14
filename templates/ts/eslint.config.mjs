@@ -18,6 +18,19 @@ export default defineConfig([
         },
     },
     {
+        files: ['**/*.ts', '**/*.tsx'],
+        rules: {
+            '@typescript-eslint/prefer-ts-expect-error': 'error',
+            '@typescript-eslint/consistent-type-imports': [
+                'error',
+                {
+                    prefer: 'type-imports',
+                    fixStyle: 'separate-type-imports',
+                },
+            ],
+        },
+    },
+    {
         ignores: ['build'],
     },
 ]);

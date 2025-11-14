@@ -156,9 +156,19 @@ else
         for file in "${TEMPLATE_FILES[@]}"; do
             download_file "templates/js/$file" "$TARGET_PATH/$file" || exit 1
         done
+    elif [ "$TEMPLATE" = "ts" ]; then
+        TEMPLATE_FILES=(
+            "package.json"
+            "eslint.config.mjs"
+            "tsconfig.json"
+        )
+        
+        for file in "${TEMPLATE_FILES[@]}"; do
+            download_file "templates/ts/$file" "$TARGET_PATH/$file" || exit 1
+        done
     else
         print_error "Unknown template: $TEMPLATE"
-        print_error "Available templates: js"
+        print_error "Available templates: js, ts"
         exit 1
     fi
 fi

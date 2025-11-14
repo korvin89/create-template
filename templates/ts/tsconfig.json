@@ -1,0 +1,15 @@
+{
+    "extends": "@gravity-ui/tsconfig",
+    "compilerOptions": {
+        "target": "es2022",
+        "allowJs": true,
+        "outDir": "build",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "baseUrl": ".",
+        "resolveJsonModule": true,
+        "importHelpers": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": ["src/**/*.ts", "src/**/*.tsx"]
+}

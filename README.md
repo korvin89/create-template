@@ -31,8 +31,10 @@ cd create-template
 
 The script accepts the following parameters:
 
-- `path=<directory>` - **Required**. The path where the project will be created
-- `template=<type>` - **Optional**. The template type to use (default: `js`)
+| Parameter | Required | Default | Description | Available Values |
+|-----------|----------|---------|-------------|------------------|
+| `path` | ✅ Yes | - | The path where the project will be created | Any valid directory path |
+| `template` | ❌ No | `js` | The template type to use | `js`, `ts` |
 
 ### Examples
 
@@ -45,7 +47,11 @@ curl -fsSL https://raw.githubusercontent.com/korvin89/create-template/main/scrip
 Create a project with a specific template:
 
 ```bash
+# JavaScript template
 curl -fsSL https://raw.githubusercontent.com/korvin89/create-template/main/scripts/create.sh | bash -s -- path=./my-app template=js
+
+# TypeScript template
+curl -fsSL https://raw.githubusercontent.com/korvin89/create-template/main/scripts/create.sh | bash -s -- path=./my-app template=ts
 ```
 
 ## What Gets Installed
@@ -62,6 +68,12 @@ curl -fsSL https://raw.githubusercontent.com/korvin89/create-template/main/scrip
 
 - `package.json` - NPM package configuration with scripts and dependencies
 - `eslint.config.mjs` - ESLint configuration
+
+### Template: TS
+
+- `package.json` - NPM package configuration with scripts and dependencies
+- `eslint.config.mjs` - ESLint configuration
+- `tsconfig.json` - TypeScript configuration
 
 ## Post-Installation
 
