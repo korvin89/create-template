@@ -13,11 +13,15 @@
       "type": "git",
       "url": "https://github.com/<project-owner>/<project-name>"
     },
-    "type": "commonjs",
+    "type": "module",
     "scripts": {
       "prepare": "husky",
+      "build": "tsc",
+      "build:watch": "tsc --watch",
+      "typecheck": "tsc --noEmit",
       "lint:js": "eslint",
       "lint:js:fix": "npm run lint:js -- --fix",
+      "lint:types": "npm run typecheck",
       "lint": "run-p lint:*"
     },
     "dependencies": {},
@@ -36,7 +40,7 @@
       "typescript": "^5.9.3"
     },
     "nano-staged": {
-      "*.{js,jsx}": [
+      "*.{js,jsx,ts,tsx}": [
         "eslint --fix --quiet"
       ]
     }

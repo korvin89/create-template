@@ -71,9 +71,16 @@ curl -fsSL https://raw.githubusercontent.com/korvin89/create-template/main/scrip
 
 ### Template: TS
 
-- `package.json` - NPM package configuration with scripts and dependencies
+- `package.json` - NPM package configuration with scripts and dependencies (includes build scripts)
 - `eslint.config.mjs` - ESLint configuration
 - `tsconfig.json` - TypeScript configuration
+- `src/index.ts` - Example TypeScript source file
+
+**Available scripts:**
+- `npm run build` - Compile TypeScript to JavaScript (output: `build/` directory)
+- `npm run build:watch` - Compile TypeScript in watch mode
+- `npm run typecheck` - Check TypeScript types without emitting files
+- `npm run lint` - Run all linters (ESLint + TypeScript type checking)
 
 ## Post-Installation
 

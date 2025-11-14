@@ -166,6 +166,10 @@ else
         for file in "${TEMPLATE_FILES[@]}"; do
             download_file "templates/ts/$file" "$TARGET_PATH/$file" || exit 1
         done
+        
+        # Create src directory and download source files
+        mkdir -p "$TARGET_PATH/src"
+        download_file "templates/ts/src/index.ts" "$TARGET_PATH/src/index.ts" || exit 1
     else
         print_error "Unknown template: $TEMPLATE"
         print_error "Available templates: js, ts"
