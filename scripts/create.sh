@@ -55,18 +55,23 @@ fi
 # Determine the script location
 # If run via curl, we need to fetch files from GitHub
 # If run locally, use the local templates directory
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(dirname "$SCRIPT_DIR")"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)"
+REPO_ROOT="$(dirname "$SCRIPT_DIR" 2>/dev/null)"
 TEMPLATES_DIR="$REPO_ROOT/templates"
+
+# GitHub repository settings
+GITHUB_USER="korvin89"
+GITHUB_REPO="create-template"
+GITHUB_BRANCH="main"
+GITHUB_RAW_URL="https://raw.githubusercontent.com/$GITHUB_USER/$GITHUB_REPO/$GITHUB_BRANCH"
 
 # Check if we're running locally or via curl
 if [ -d "$TEMPLATES_DIR" ]; then
     print_info "Running in local mode"
     LOCAL_MODE=true
 else
-    print_error "Templates directory not found. Remote mode via curl is not yet supported."
-    print_error "Please run this script from a local clone of the repository."
-    exit 1
+    print_info "Running in remote mode (downloading from GitHub)"
+    LOCAL_MODE=false
 fi
 
 print_info "Creating project at: $TARGET_PATH"
@@ -85,29 +90,79 @@ mkdir -p "$TARGET_PATH"
 # Convert to absolute path
 TARGET_PATH="$(cd "$TARGET_PATH" && pwd)"
 
-# Copy common templates
+# Function to download file from GitHub
+download_file() {
+    local remote_path=$1
+    local local_path=$2
+    local url="$GITHUB_RAW_URL/$remote_path"
+    
+    if curl -fsSL "$url" -o "$local_path"; then
+        return 0
+    else
+        print_error "Failed to download: $url"
+        return 1
+    fi
+}
+
+# Copy/download common templates
 print_info "Copying common template files..."
-COMMON_DIR="$TEMPLATES_DIR/common"
-if [ ! -d "$COMMON_DIR" ]; then
-    print_error "Common templates directory not found: $COMMON_DIR"
-    exit 1
+
+if [ "$LOCAL_MODE" = true ]; then
+    # Local mode: copy files
+    COMMON_DIR="$TEMPLATES_DIR/common"
+    if [ ! -d "$COMMON_DIR" ]; then
+        print_error "Common templates directory not found: $COMMON_DIR"
+        exit 1
+    fi
+    cp -r "$COMMON_DIR"/. "$TARGET_PATH/"
+else
+    # Remote mode: download files from GitHub
+    COMMON_FILES=(
+        ".editorconfig"
+        ".gitignore"
+        ".nvmrc"
+        ".prettierrc.js"
+        "commitlint.config.js"
+    )
+    
+    for file in "${COMMON_FILES[@]}"; do
+        download_file "templates/common/$file" "$TARGET_PATH/$file" || exit 1
+    done
 fi
 
-# Copy all files from common directory (including hidden files)
-cp -r "$COMMON_DIR"/. "$TARGET_PATH/"
 print_info "✓ Common files copied"
 
-# Copy template-specific files
+# Copy/download template-specific files
 print_info "Copying $TEMPLATE template files..."
-TEMPLATE_DIR="$TEMPLATES_DIR/$TEMPLATE"
 
-if [ ! -d "$TEMPLATE_DIR" ]; then
-    print_error "Template directory not found: $TEMPLATE_DIR"
-    exit 1
+if [ "$LOCAL_MODE" = true ]; then
+    # Local mode: copy files
+    TEMPLATE_DIR="$TEMPLATES_DIR/$TEMPLATE"
+    
+    if [ ! -d "$TEMPLATE_DIR" ]; then
+        print_error "Template directory not found: $TEMPLATE_DIR"
+        exit 1
+    fi
+    
+    cp -r "$TEMPLATE_DIR"/. "$TARGET_PATH/"
+else
+    # Remote mode: download files from GitHub
+    if [ "$TEMPLATE" = "js" ]; then
+        TEMPLATE_FILES=(
+            "package.json"
+            "eslint.config.mjs"
+        )
+        
+        for file in "${TEMPLATE_FILES[@]}"; do
+            download_file "templates/js/$file" "$TARGET_PATH/$file" || exit 1
+        done
+    else
+        print_error "Unknown template: $TEMPLATE"
+        print_error "Available templates: js"
+        exit 1
+    fi
 fi
 
-# Copy all files from template directory
-cp -r "$TEMPLATE_DIR"/. "$TARGET_PATH/"
 print_info "✓ Template files copied"
 
 # Change to target directory
