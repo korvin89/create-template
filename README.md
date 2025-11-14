@@ -14,14 +14,8 @@ This will download and execute the `create.sh` script, which will:
 - Copy common configuration files (editorconfig, gitignore, prettier, etc.)
 - Copy template-specific files (package.json, eslint config, etc.)
 - Install npm dependencies
+- Initialize git repository
 - Initialize husky git hooks
-
-After installation, navigate to your project directory and initialize git:
-
-```bash
-cd ./my-project
-git init
-```
 
 ## Manual Installation
 
@@ -73,12 +67,17 @@ curl -fsSL https://raw.githubusercontent.com/korvin89/create-template/main/scrip
 
 After installation, don't forget to:
 
-1. Update placeholders in `package.json`:
+1. Navigate to your project directory:
+   ```bash
+   cd ./my-project
+   ```
+
+2. Update placeholders in `package.json`:
    - `<project-name>` - Your project name
    - `<project-description>` - Your project description
    - `<project-owner>` - Your GitHub username
 
-2. Make your first commit:
+3. Make your first commit:
    ```bash
    git add .
    git commit -m "Initial commit"

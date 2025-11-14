@@ -184,6 +184,15 @@ else
     exit 1
 fi
 
+# Initialize git repository
+print_info "Initializing git repository..."
+if git init; then
+    print_info "✓ Git repository initialized"
+else
+    print_error "Failed to initialize git repository"
+    exit 1
+fi
+
 # Initialize husky
 print_info "Initializing husky..."
 if npx husky init; then
@@ -196,7 +205,8 @@ EOF
     chmod +x .husky/pre-commit
     print_info "✓ Pre-commit hook created"
 else
-    print_warning "Failed to initialize husky (git repository needs to be initialized first)"
+    print_error "Failed to initialize husky"
+    exit 1
 fi
 
 # Success message
@@ -208,8 +218,7 @@ print_info "=========================================="
 echo ""
 print_info "Next steps:"
 echo "  1. cd $TARGET_PATH"
-echo "  2. Initialize git repository: git init"
-echo "  3. Update placeholders in package.json (<project-name>, <project-description>, etc.)"
-echo "  4. Make your first commit: git add . && git commit -m 'Initial commit'"
+echo "  2. Update placeholders in package.json (<project-name>, <project-description>, etc.)"
+echo "  3. Make your first commit: git add . && git commit -m 'Initial commit'"
 echo ""
 
